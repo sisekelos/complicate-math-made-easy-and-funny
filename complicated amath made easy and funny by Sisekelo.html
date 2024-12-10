@@ -1,0 +1,442 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGCSE/IGCSE Mathematics</title>
+    
+    <!-- External Libraries -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" src="tex-mml-chtml.js"></script>
+    <script src="chart.js"></script>
+    <link href="video-js.css" rel="stylesheet" />
+    <script src="anime.min.js"></script>
+    <link href="materialdesignicons.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #4A90E2;
+            --secondary-color: #F5F7FA;
+            --accent-color: #34C759;
+            --text-color: #2C3E50;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+            --hover-color: #3498db;
+        }
+
+        [data-theme=dark] {
+            --primary-color: #1A1F36;
+            --secondary-color: #2D3748;
+            --accent-color: #48BB78;
+            --text-color: #E2E8F0;
+            --shadow-color: rgba(255, 255, 255, 0.1);
+            --card-bg: #1a202c;
+            --hover-color: #2d3748;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--hover-color);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Course Grid */
+        .course-grid {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .topic-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 8px 8px 15px var(--shadow-color),
+                       -8px -8px 15px rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .topic-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .topic-list {
+            list-style: none;
+        }
+
+        .topic-list li {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .topic-list li:hover {
+            background-color: var(--hover-color);
+            color: white;
+        }
+
+        /* Video Player Section */
+        .video-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .progress-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 8px 8px 15px var(--shadow-color),
+                       -8px -8px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Calculator Section */
+        .calculator {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 400px;
+            box-shadow: 8px 8px 15px var(--shadow-color),
+                       -8px -8px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Practice Problems Section */
+        .practice-problems {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .problem-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 8px 8px 15px var(--shadow-color),
+                       -8px -8px 15px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">Complicated Math Made Easy</div>
+            <nav class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#topics">Topics</a>
+                <a href="#practice">Practice</a>
+                <a href="#progress">Progress</a>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="mdi mdi-theme-light-dark"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Master EGCSE/IGCSE Mathematics </h1>
+        <p>Interactive lessons, practice problems, and comprehensive coverage of all topics</p>
+    </section>
+
+    <section class="course-grid" id="topics">
+        <div class="topic-card fade-in">
+            <h3>Number</h3>
+            <ul class="topic-list">
+                <li>Integers</li>
+                <li>Powers and Roots</li>
+                <li>Fractions and Decimals</li>
+                <li>Percentages</li>
+                <li>Money</li>
+                <li>Time and Travel</li>
+            </ul>
+        </div>
+
+        <div class="topic-card fade-in">
+            <h3>Algebra</h3>
+            <ul class="topic-list">
+                <li>Expressions</li>
+                <li>Equations and Inequalities</li>
+                <li>Functions</li>
+                <li>Sequences</li>
+                <li>Sets</li>
+            </ul>
+        </div>
+
+        <div class="topic-card fade-in">
+            <h3>Geometry</h3>
+            <ul class="topic-list">
+                <li>Angles</li>
+                <li>Parallel Lines</li>
+                <li>Triangles</li>
+                <li>Circle Geometry</li>
+                <li>Transformations</li>
+                <li>Vectors</li>
+            </ul>
+        </div>
+
+        <div class="topic-card fade-in">
+            <h3>Statistics & Probability</h3>
+            <ul class="topic-list">
+                <li>Data Handling</li>
+                <li>Statistical Measures</li>
+                <li>Probability</li>
+                <li>Set Theory</li>
+            </ul>
+        </div>
+
+        <div class="topic-card fade-in">
+            <h3>Mensuration</h3>
+            <ul class="topic-list">
+                <li>Area and Perimeter</li>
+                <li>Volume and Surface Area</li>
+                <li>Similar Shapes</li>
+            </ul>
+        </div>
+
+        <div class="topic-card fade-in">
+            <h3>Trigonometry</h3>
+            <ul class="topic-list">
+                <li>Right-angled Triangles</li>
+                <li>Sine, Cosine, Tangent</li>
+                <li>3D Problems</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="video-section fade-in">
+        <h2>Featured Lesson</h2>
+        <div class="video-container">
+            <!-- Placeholder for video player -->
+            <div id="video-player"></div>
+        </div>
+    </section>
+
+    <section class="progress-section fade-in" id="progress">
+        <div class="progress-card">
+            <h2>Your Progress</h2>
+            <canvas id="progressChart"></canvas>
+        </div>
+    </section>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.dataset.theme = 
+                document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+        }
+
+        // Fade In Animation
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Progress Chart
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Number', 'Algebra', 'Geometry', 'Statistics', 'Mensuration', 'Trigonometry'],
+                datasets: [{
+                    label: 'Topic Progress',
+                    data: [85, 70, 75, 80, 65, 60],
+                    backgroundColor: 'rgba(74, 144, 226, 0.2)',
+                    borderColor: 'rgba(74, 144, 226, 1)',
+                    pointBackgroundColor: 'rgba(74, 144, 226, 1)',
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // Initialize MathJax
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        });
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animation for topic cards
+        anime({
+            targets: '.topic-card',
+            translateY: [50, 0],
+            opacity: [0, 1],
+            delay: anime.stagger(100),
+            easing: 'easeOutExpo',
+            duration: 1500
+        });
+    </script>
+</body>
+</html>
